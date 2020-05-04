@@ -1,7 +1,3 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 
@@ -12,7 +8,7 @@ public class PlatniumCard extends FlyerCard {
     }
 
     @Override
-    public double getDiscountAmount(double price, TicketType ticketType) {
+    public double getDiscountAmount(double price, AirTicket.TicketType ticketType) {
         return 0;
     }
 
@@ -47,21 +43,23 @@ public class PlatniumCard extends FlyerCard {
         super(ID,name, signup,ad, ffp);
     }
 
+
+    @Override
+    public PlatniumCard clone() throws CloneNotSupportedException{
+        PlatniumCard card = (PlatniumCard) super.clone();
+        card.SetAddress(this.GetAddress().clone());
+        return card;
+    }
+
     public static PlatniumCard getInstanceFromStringArray(String[] content){
-        var ID = Integer.parseInt(content[0]);
+        var ID = content[0];
         var name = content[1];
         var address = new Address(content[2], content[3], content[4], content[5], content[6], content[7]);
         var ffp = Integer.parseInt(content[8]);
-        Calendar actdate = Calendar.getInstance();
-        String[] date = content[9].split("/", 3);
-        actdate.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date[0]));
-        actdate.set(Calendar.MONTH, Integer.parseInt(date[1]));
-        actdate.set(Calendar.YEAR, Integer.parseInt(date[2]));
+        LocalDate localdate = LocalDate.parse(content[9]);
 
-        PlatniumCard output = new PlatniumCard(ID, name, address);
-        output.AddPoints(ffp);
+        PlatniumCard output = new PlatniumCard(ID, name, localdate, address,ffp);
         //output.Coupon = Double.parseDouble(content[10]);
         return output;
     }
-
 }

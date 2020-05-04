@@ -8,13 +8,17 @@ public class Coupon implements Discount, StringForFile {
     }
     public Coupon(double value){
         this.value = value;
+        this.id = Double.toString(Math.random());
     }
 
     public double getValue() {
         return value;
     }
     public static Coupon getInstanceFromStringArray(String[] content){
-
+        String ID = content[0];
+        double value = Double.parseDouble(content[1]);
+        Coupon output = new Coupon(ID, value);
+        return output;
     }
 
     @Override
@@ -23,7 +27,7 @@ public class Coupon implements Discount, StringForFile {
     }
 
     @Override
-    public double getDiscountAmount(double price, TicketType ticketType) {
+    public double getDiscountAmount(double price, AirTicket.TicketType ticketType) {
         return 0;
     }
 

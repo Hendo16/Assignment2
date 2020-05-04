@@ -1,7 +1,6 @@
 import java.time.LocalDate;
-import java.util.Calendar;
 
-public abstract class FlyerCard implements Discount {
+public abstract class FlyerCard implements Discount, Cloneable, Comparable<FlyerCard> {
     private String id;
     private String name;
     private LocalDate date;
@@ -11,6 +10,8 @@ public abstract class FlyerCard implements Discount {
     public FlyerCard(String name, Address address){
         this.name = name;
         this.address = address;
+        this.date = LocalDate.now();
+        this.id = Double.toString(Math.random());
     }
     protected FlyerCard(String id, String name, LocalDate date, Address address, int ffp){
         this.id = id;
@@ -38,6 +39,22 @@ public abstract class FlyerCard implements Discount {
 
     public LocalDate GetDate() {
         return this.date;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public int compareTo(FlyerCard fc){
+        return Integer.valueOf(this.getId()).compareTo(Integer.parseInt(fc.getId()));
+    }
+
+    @Override
+    public FlyerCard clone() throws CloneNotSupportedException{
+        FlyerCard card = (FlyerCard) super.clone();
+        card.SetAddress(this.GetAddress().clone());
+        return card;
     }
 
     @Override

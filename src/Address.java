@@ -1,4 +1,4 @@
-public class Address {
+public class Address implements Cloneable{
     private String StreetNum;
     private String StreetName;
     private String City;
@@ -13,6 +13,11 @@ public class Address {
         this.State = state;
         this.Postcode = post;
         this.Suburb = sub;
+    }
+
+    @Override
+    public Address clone() throws CloneNotSupportedException{
+        return (Address)super.clone();
     }
 
     @Override
