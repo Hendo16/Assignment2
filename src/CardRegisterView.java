@@ -3,6 +3,15 @@ import java.util.Scanner;
 public class CardRegisterView {
     Scanner in = new Scanner(System.in);
     public CardRegisterView(){}
+    public String[][] getCardRegisterInfoFromUser(){
+        String[][] output = new String[2][0];
+        output[0][0]= getFlyerCardIDFromConsole();
+        output[0][1]= getNameFromConsole();
+        System.out.print("Which card are you applying for? Platinum or Titanium?: ");
+        output[0][2] = in.nextLine();
+        output[1]= getAddressFromConsole();
+        return output;
+    }
     public String getFlyerCardIDFromConsole(){
         System.out.print("Please enter Card ID: ");
         return in.nextLine();

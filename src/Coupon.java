@@ -21,6 +21,10 @@ public class Coupon implements Discount, StringForFile {
         return output;
     }
 
+    public String getId() {
+        return id;
+    }
+
     @Override
     public void getDiscountID() {
 

@@ -45,6 +45,30 @@ public abstract class FlyerCard implements Discount, Cloneable, Comparable<Flyer
         return id;
     }
 
+    public Coupon getYearlyCoupon(){
+        double value = 0.0
+        if(this instanceof PlatniumCard){
+            if(this.GetPoints() < 10000){
+                value = .005*this.GetPoints();
+            }
+            if(this.GetPoints()>10000){
+                value = .01*this.GetPoints();
+            }
+        }
+        if(this instanceof TitaniumCard){
+            if(this.GetPoints() < 100000){
+                value = .015*this.GetPoints();
+            }
+            if(this.GetPoints()>100000 && this.GetPoints() < 300000){
+                value = .2*this.GetPoints();
+            }
+            if(this.GetPoints()>300000 || ((TitaniumCard) this).CalculateYears() > 5 && this.GetPoints()>100000 && this.GetPoints() < 300000){
+                value = .3*this.GetPoints();
+            }
+        }
+        return new Coupon(this.getId(), value);
+    }
+
     @Override
     public int compareTo(FlyerCard fc){
         return Integer.valueOf(this.getId()).compareTo(Integer.parseInt(fc.getId()));
