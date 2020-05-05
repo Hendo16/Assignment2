@@ -16,8 +16,71 @@ public class Address implements Cloneable{
     }
 
     @Override
+    public boolean equals(Object obj){
+        if(this == obj){
+            return true;
+        }
+        if(obj == null){
+            return false;
+        }
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        Address other = (Address) obj;
+        if(StreetNum == null){
+            if(other.StreetNum != null){
+                return false;
+            }
+            else if(!StreetNum.equals(other.StreetNum)){
+                return false;
+            }
+        }
+        if(StreetName == null){
+            if(other.StreetName != null){
+                return false;
+            }
+            else if(!StreetName.equals(other.StreetName)){
+                return false;
+            }
+        }
+        if(Suburb == null){
+            if(other.Suburb != null){
+                return false;
+            }
+            else if(!Suburb.equals(other.Suburb)){
+                return false;
+            }
+        }
+        if(City == null){
+            if(other.City != null){
+                return false;
+            }
+            else if(!City.equals(other.City)){
+                return false;
+            }
+        }
+        if(State == null){
+            if(other.State != null){
+                return false;
+            }
+            else if(!State.equals(other.State)){
+                return false;
+            }
+        }
+        if(Postcode == null){
+            if(other.Postcode != null){
+                return false;
+            }
+            else if(!Postcode.equals(other.Postcode)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public Address clone() throws CloneNotSupportedException{
-        return (Address)super.clone();
+        return (Address) super.clone();
     }
 
     @Override

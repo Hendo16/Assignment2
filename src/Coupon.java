@@ -21,18 +21,19 @@ public class Coupon implements Discount, StringForFile {
         return output;
     }
 
-    public String getId() {
+    @Override
+    public String toString(){
+        return "ID: "+this.id+"\nValue: "+this.value;
+    }
+    @Override
+    public String getDiscountID() {
         return id;
     }
 
-    @Override
-    public void getDiscountID() {
-
-    }
 
     @Override
     public double getDiscountAmount(double price, AirTicket.TicketType ticketType) {
-        return 0;
+        return price - this.getValue();
     }
 
     @Override

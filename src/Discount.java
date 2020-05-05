@@ -1,4 +1,4 @@
 public interface Discount {
-    public void getDiscountID();
+    public String getDiscountID();
     public double getDiscountAmount(double price, AirTicket.TicketType ticketType);
 }

@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.Random;
 
 public abstract class FlyerCard implements Discount, Cloneable, Comparable<FlyerCard> {
     private String id;
@@ -11,7 +12,7 @@ public abstract class FlyerCard implements Discount, Cloneable, Comparable<Flyer
         this.name = name;
         this.address = address;
         this.date = LocalDate.now();
-        this.id = Double.toString(Math.random());
+        this.id = Double.toString(new Random().nextInt(99999));
     }
     protected FlyerCard(String id, String name, LocalDate date, Address address, int ffp){
         this.id = id;
@@ -41,12 +42,13 @@ public abstract class FlyerCard implements Discount, Cloneable, Comparable<Flyer
         return this.date;
     }
 
-    public String getId() {
+    @Override
+    public String getDiscountID(){
         return id;
     }
 
-    public Coupon getYearlyCoupon(){
-        double value = 0.0
+    public Coupon getYearlyCoupon(String ID){
+        double value = 0.0;
         if(this instanceof PlatniumCard){
             if(this.GetPoints() < 10000){
                 value = .005*this.GetPoints();
@@ -66,12 +68,12 @@ public abstract class FlyerCard implements Discount, Cloneable, Comparable<Flyer
                 value = .3*this.GetPoints();
             }
         }
-        return new Coupon(this.getId(), value);
+        return new Coupon(ID, value);
     }
 
     @Override
     public int compareTo(FlyerCard fc){
-        return Integer.valueOf(this.getId()).compareTo(Integer.parseInt(fc.getId()));
+        return (Double.compare(Double.parseDouble(this.getDiscountID()), Double.parseDouble(fc.getDiscountID())));
     }
 
     @Override
@@ -83,7 +85,8 @@ public abstract class FlyerCard implements Discount, Cloneable, Comparable<Flyer
 
     @Override
     public String toString(){
-        String output = "Customer Name: " + this.GetName() +
+        String output = "ID: "+ this.getDiscountID()+
+                "\nCustomer Name: " + this.GetName() +
                 "\n Address: "+ this.GetAddress() +
                 "\n Signup Date: " + this.GetDate().toString() +
                 "\n Current Points: " + this.GetPoints();

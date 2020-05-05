@@ -5,11 +5,11 @@ public class CardRegisterSystem {
     private ArrayList<FlyerCard> flyerCards;
     private ArrayList<Coupon> coupons;
     private CardRegisterView view;
-    private MainSystem main;
 
-    public CardRegisterSystem(MainSystem main){
-        this.main = main;
+    public CardRegisterSystem(){
         view = new CardRegisterView();
+        flyerCards = new ArrayList<FlyerCard>();
+        coupons = new ArrayList<Coupon>();
     }
     public Address buildAddressFromArray(String[] content){
         String StreetNum = content[0];
@@ -26,19 +26,19 @@ public class CardRegisterSystem {
     }
     public void displayCardInfo(String ID){
         for (FlyerCard card: flyerCards){
-            if(ID.equals(card.getId())){
+            if(ID.equals(card.getDiscountID())){
                 view.displayInformationToConsole(card.toString());
                 break;
             }
         }
     }
     public void displayCouponInfo(){
-        String coupon = view.getFlyerCardIDFromConsole();
+        String coupon = view.getCouponIDFromConsole();
         displayCouponInfo(coupon);
     }
     public void displayCouponInfo(String coupID){
         for (Coupon coup: coupons){
-            if(coupID.equals(coup.getId())){
+            if(coupID.equals(coup.getDiscountID())){
                 view.displayInformationToConsole(coup.toString());
                 break;
             }
@@ -71,13 +71,49 @@ public class CardRegisterSystem {
     }
     protected void genCoupon(String discountID){
         for(FlyerCard card: flyerCards){
-            if(discountID.equals(card.getId())){
-                Coupon coup = card.getYearlyCoupon();
+            if(discountID.equals(card.getDiscountID())){
+                Coupon coup = card.getYearlyCoupon(view.getCouponIDFromConsole());
                 coupons.add(coup);
             }
         }
     }
-    protected AirTicket.DiscountType getDiscountType(String discountID){}
-    protected void getDiscountAmount(String discountid, double price, AirTicket.TicketType ticketType){}
-    protected Discount searchByDiscountID(String DiscountID){}
+    protected AirTicket.DiscountType getDiscountType(String discountID){
+        for(FlyerCard card: flyerCards){
+            if(discountID.equals(card.getDiscountID())){
+                return AirTicket.DiscountType.Card;
+            }
+        }
+        for(Coupon coup: coupons){
+            if(discountID.equals(coup.getDiscountID())){
+                return AirTicket.DiscountType.Coupon;
+            }
+        }
+        return AirTicket.DiscountType.None;
+    }
+    protected double getDiscountAmount(String discountid, double price, AirTicket.TicketType ticketType){
+        for(FlyerCard card:flyerCards){
+            if(discountid.equals(card.getDiscountID())){
+                return card.getDiscountAmount(price, ticketType);
+            }
+        }
+        for(Coupon coup: coupons){
+            if(discountid.equals(coup.getDiscountID())){
+                return coup.getDiscountAmount(price, ticketType);
+            }
+        }
+        return 0.0;
+    }
+    protected Discount searchByDiscountID(String DiscountID){
+        for(FlyerCard card:flyerCards){
+            if(DiscountID.equals(card.getDiscountID())){
+                return card;
+            }
+        }
+        for(Coupon coup: coupons){
+            if(DiscountID.equals(coup.getDiscountID())){
+                return coup;
+            }
+        }
+        return null;
+    }
 }

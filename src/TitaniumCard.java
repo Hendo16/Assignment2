@@ -39,11 +39,73 @@ public class TitaniumCard extends PlatniumCard {
         return difference;
     }
 
+    @Override
+    public double getDiscountAmount(double price, AirTicket.TicketType ticketType) {
+        double discount = 0;
+        if(ticketType == AirTicket.TicketType.EconomyClass){
+            discount = .02*price;
+        }
+        if(ticketType == AirTicket.TicketType.BusinessClass || ticketType == AirTicket.TicketType.FirstClass){
+            discount = .1*price;
+        }
+        return discount;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj){
+            return true;
+        }
+        if(obj == null){
+            return false;
+        }
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        TitaniumCard other = (TitaniumCard) obj;
+        if(this.getDiscountID() == null){
+            if(this.getDiscountID() != null){
+                return false;
+            }
+            else if(!this.getDiscountID().equals(other.getDiscountID())){
+                return false;
+            }
+        }
+        if(this.GetName() == null){
+            if(this.GetName() != null){
+                return false;
+            }
+            else if(!this.GetName().equals(other.GetName())){
+                return false;
+            }
+        }
+        if(this.GetAddress() == null){
+            if(this.GetAddress() != null){
+                return false;
+            }
+            else if(!this.GetAddress().equals(other.GetAddress())){
+                return false;
+            }
+        }
+        if(this.GetPoints() != other.GetPoints()){
+            return false;
+        }
+        if(this.GetDate() == null){
+            if(this.GetDate() != null){
+                return false;
+            }
+            else if(!this.GetDate().equals(other.GetDate())){
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public TitaniumCard clone() throws CloneNotSupportedException{
         TitaniumCard card = (TitaniumCard) super.clone();
-        card.SetAddress(this.GetAddress().clone());
+        Address cloneaddress = (Address)this.GetAddress().clone();
+        card.SetAddress(cloneaddress);
         return card;
     }
 

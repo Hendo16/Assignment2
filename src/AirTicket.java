@@ -28,6 +28,7 @@ public class AirTicket {
         }
     }
     public enum DiscountType{
+        None("None"),
         Card("Card"),
         Coupon("Coupon");
 

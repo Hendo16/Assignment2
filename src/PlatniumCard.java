@@ -2,14 +2,17 @@ import java.time.LocalDate;
 import java.util.Calendar;
 
 public class PlatniumCard extends FlyerCard {
-    @Override
-    public void getDiscountID() {
-
-    }
 
     @Override
     public double getDiscountAmount(double price, AirTicket.TicketType ticketType) {
-        return 0;
+        double discount = 0;
+        if(ticketType == AirTicket.TicketType.EconomyClass){
+            discount = .01*price;
+        }
+        if(ticketType == AirTicket.TicketType.BusinessClass || ticketType == AirTicket.TicketType.FirstClass){
+            discount = .05*price;
+        }
+        return discount;
     }
 
     /*Although we're inheriting from the FrequentFlyerCard, we still need a variable to cling to when accessing the
@@ -47,8 +50,59 @@ public class PlatniumCard extends FlyerCard {
     @Override
     public PlatniumCard clone() throws CloneNotSupportedException{
         PlatniumCard card = (PlatniumCard) super.clone();
-        card.SetAddress(this.GetAddress().clone());
+        Address cloneaddress = (Address)this.GetAddress().clone();
+        card.SetAddress(cloneaddress);
         return card;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj){
+            return true;
+        }
+        if(obj == null){
+            return false;
+        }
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        PlatniumCard other = (PlatniumCard) obj;
+        if(this.getDiscountID() == null){
+            if(this.getDiscountID() != null){
+                return false;
+            }
+            else if(!this.getDiscountID().equals(other.getDiscountID())){
+                return false;
+            }
+        }
+        if(this.GetName() == null){
+            if(this.GetName() != null){
+                return false;
+            }
+            else if(!this.GetName().equals(other.GetName())){
+                return false;
+            }
+        }
+        if(this.GetAddress() == null){
+            if(this.GetAddress() != null){
+                return false;
+            }
+            else if(!this.GetAddress().equals(other.GetAddress())){
+                return false;
+            }
+        }
+        if(this.GetPoints() != other.GetPoints()){
+            return false;
+        }
+        if(this.GetDate() == null){
+            if(this.GetDate() != null){
+                return false;
+            }
+            else if(!this.GetDate().equals(other.GetDate())){
+                return false;
+            }
+        }
+        return true;
     }
 
     public static PlatniumCard getInstanceFromStringArray(String[] content){

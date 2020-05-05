@@ -4,7 +4,7 @@ public class CardRegisterView {
     Scanner in = new Scanner(System.in);
     public CardRegisterView(){}
     public String[][] getCardRegisterInfoFromUser(){
-        String[][] output = new String[2][0];
+        String[][] output = new String[2][3];
         output[0][0]= getFlyerCardIDFromConsole();
         output[0][1]= getNameFromConsole();
         System.out.print("Which card are you applying for? Platinum or Titanium?: ");
@@ -14,6 +14,10 @@ public class CardRegisterView {
     }
     public String getFlyerCardIDFromConsole(){
         System.out.print("Please enter Card ID: ");
+        return in.nextLine();
+    }
+    public String getCouponIDFromConsole(){
+        System.out.print("Please enter Coupon ID: ");
         return in.nextLine();
     }
     public String getNameFromConsole(){
