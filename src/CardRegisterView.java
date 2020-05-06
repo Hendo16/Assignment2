@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class CardRegisterView {
-    Scanner in = new Scanner(System.in);
+    private Scanner in = new Scanner(System.in);
     public CardRegisterView(){}
     public String[][] getCardRegisterInfoFromUser(){
         String[][] output = new String[2][3];

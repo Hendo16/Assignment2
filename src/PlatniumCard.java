@@ -1,42 +1,8 @@
 import java.time.LocalDate;
-import java.util.Calendar;
 
 public class PlatniumCard extends FlyerCard {
-
-    @Override
-    public double getDiscountAmount(double price, AirTicket.TicketType ticketType) {
-        double discount = 0;
-        if(ticketType == AirTicket.TicketType.EconomyClass){
-            discount = .01*price;
-        }
-        if(ticketType == AirTicket.TicketType.BusinessClass || ticketType == AirTicket.TicketType.FirstClass){
-            discount = .05*price;
-        }
-        return discount;
-    }
-
-    /*Although we're inheriting from the FrequentFlyerCard, we still need a variable to cling to when accessing the
-            attribute. We've also got the constructor here, and 'super()' simply passes the values through to mirror the constructor
-            that's in the inherited/superclass, in this case being FrequentFlyerCard.
-            */
-    private enum Discount{
-        EconomyClass(.01),
-        BuisnessClass(.05),
-        FirstClass(.05);
-
-        private final Double percent;
-
-        Discount(Double p){
-            this.percent = p;
-        }
-
-        public Double getDiscount(){
-            return this.percent;
-        }
-    }
     private static double EconomyClassDiscountRate = 0.01;
-    private static double BusinessClassDiscountRate = 0.05;
-    private static double FirstClassDiscountRate = 0.05;
+    private static double BusinessAndFirstClassDiscountRate = 0.05;
 
     public PlatniumCard(String Name, Address address) {
         super(Name, address);
@@ -46,6 +12,16 @@ public class PlatniumCard extends FlyerCard {
         super(ID,name, signup,ad, ffp);
     }
 
+
+    @Override
+    public double getDiscountAmount(double price, TicketType ticketType) {
+        return CalculateDiscount(price, EconomyClassDiscountRate, BusinessAndFirstClassDiscountRate, ticketType);
+    }
+
+    @Override
+    public String getDataToSaveToTextFile() {
+        return super.getDataToSaveToTextFile()+",PlatinumCard";
+    }
 
     @Override
     public PlatniumCard clone() throws CloneNotSupportedException{
@@ -103,17 +79,5 @@ public class PlatniumCard extends FlyerCard {
             }
         }
         return true;
-    }
-
-    public static PlatniumCard getInstanceFromStringArray(String[] content){
-        var ID = content[0];
-        var name = content[1];
-        var address = new Address(content[2], content[3], content[4], content[5], content[6], content[7]);
-        var ffp = Integer.parseInt(content[8]);
-        LocalDate localdate = LocalDate.parse(content[9]);
-
-        PlatniumCard output = new PlatniumCard(ID, name, localdate, address,ffp);
-        //output.Coupon = Double.parseDouble(content[10]);
-        return output;
     }
 }

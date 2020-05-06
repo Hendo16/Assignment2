@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.util.Random;
 
-public abstract class FlyerCard implements Discount, Cloneable, Comparable<FlyerCard> {
+public abstract class FlyerCard implements Discount, Cloneable, Comparable<FlyerCard>, StringForFile {
     private String id;
     private String name;
     private LocalDate date;
@@ -20,6 +20,10 @@ public abstract class FlyerCard implements Discount, Cloneable, Comparable<Flyer
         this.date = date;
         this.address = address;
         this.ffp = ffp;
+    }
+
+    public String getDataToSaveToTextFile() {
+        return (this.getDiscountID()+","+this.GetName()+","+this.GetAddress().toString()+","+this.GetDate().toString()+","+this.GetPoints()).replace(" ","_");
     }
 
     public String GetName() {
@@ -69,6 +73,17 @@ public abstract class FlyerCard implements Discount, Cloneable, Comparable<Flyer
             }
         }
         return new Coupon(ID, value);
+    }
+
+    public double CalculateDiscount(double price, double EconomyRate, double BusinessAndFirstRate, TicketType ticketType){
+        double discount = 0;
+        if(ticketType == TicketType.EconomyClass){
+            discount = EconomyRate*price;
+        }
+        if(ticketType == TicketType.BusinessClass || ticketType == TicketType.FirstClass){
+            discount = BusinessAndFirstRate*price;
+        }
+        return discount;
     }
 
     @Override

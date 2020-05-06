@@ -14,12 +14,6 @@ public class Coupon implements Discount, StringForFile {
     public double getValue() {
         return value;
     }
-    public static Coupon getInstanceFromStringArray(String[] content){
-        String ID = content[0];
-        double value = Double.parseDouble(content[1]);
-        Coupon output = new Coupon(ID, value);
-        return output;
-    }
 
     @Override
     public String toString(){
@@ -32,12 +26,12 @@ public class Coupon implements Discount, StringForFile {
 
 
     @Override
-    public double getDiscountAmount(double price, AirTicket.TicketType ticketType) {
+    public double getDiscountAmount(double price, TicketType ticketType) {
         return price - this.getValue();
     }
 
     @Override
     public String getDataToSaveToTextFile() {
-        return null;
+        return this.getDiscountID()+","+this.getValue();
     }
 }
